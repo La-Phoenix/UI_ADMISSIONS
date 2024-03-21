@@ -3,31 +3,39 @@ import {
   createRoutesFromElements,
   Navigate, 
   Route,
+  BrowserRouter as Router,
   RouterProvider,
+  Routes,
 } from "react-router-dom"
-import Container from '@mui/material/Container';
 import Auth from "./Pages/Auth/auth";
 import Home from "./Pages/Home/Home";
+import "./App.css"
+import { Fragment, useEffect, useState } from "react";
+import PrivateRoutes from "./Utils/PrivateRoute";
 
 function App() {
+  const profile = JSON.parse(localStorage.getItem('Profile'))
+  const [user, SetUser] = useState(profile)
   
-  const Redirect = () => {
-    return <Navigate to ="Home" />
-  }
 
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" >
-        <Route path="/" element={<Home />} />
-        <Route path="Home" element={<Home />} />
-        <Route path="auth" element={<Auth />} />
-        <Route path="*" element={<Redirect />} />
-      </Route>
-    )
-  );
+  useEffect(() => {
+    SetUser(profile)
+  }, [user])
+  
 
   return (
-    <RouterProvider router={router} />
+  <Router>
+    <Fragment>
+      <Routes>
+        <Route exact path="/" element={<PrivateRoutes user={user} />} >
+          <Route exact path="/"  element={<Home />}/>
+          <Route exact path="/home"  element={<Home />}/>
+          <Route exact path="*"  element={<Home />}/>
+        </Route>
+        <Route exact path="/auth"  element={<Auth/>} />
+      </Routes>
+    </Fragment>
+  </Router>
   )
 }
 

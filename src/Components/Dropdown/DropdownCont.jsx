@@ -4,15 +4,24 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Avatar } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
 
 const Dropdown = () => {
+  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+
+  const closeAnchor = () => {
     setAnchorEl(null);
+  }
+  const handleClose = () => {
+    closeAnchor()
+    localStorage.clear()
+
+    navigate("/auth")
   };
 
   return (
@@ -21,7 +30,7 @@ const Dropdown = () => {
       <Menu
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={closeAnchor}
       >
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
