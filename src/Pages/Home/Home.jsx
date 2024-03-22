@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import DrawerCont from "../../Components/Drawer/DrawerCont"
 import Dropdown from "../../Components/Dropdown/DropdownCont"
-import "./home.css"
+import "./Home.css"
 const Home = () => {
     const [isUser, setUser] = useState(true)
     return (
         <div className="homeContainer">
-            <header className="header">
+            {/* <header className="header">
                 <DrawerCont />
                 <Dropdown />
-            </header>
+            </header> */}
         </div>
     )
     

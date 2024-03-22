@@ -12,6 +12,8 @@ import Home from "./Pages/Home/Home";
 import "./App.css"
 import { Fragment, useEffect, useState } from "react";
 import PrivateRoutes from "./Utils/PrivateRoute";
+import Root from "./Pages/Root/Root";
+import Clearance from "./Pages/Clearance/Clearance";
 
 function App() {
   const profile = JSON.parse(localStorage.getItem('Profile'))
@@ -26,11 +28,14 @@ function App() {
   return (
   <Router>
     <Fragment>
-      <Routes>
-        <Route exact path="/" element={<PrivateRoutes user={user} />} >
-          <Route exact path="/"  element={<Home />}/>
-          <Route exact path="/home"  element={<Home />}/>
-          <Route exact path="*"  element={<Home />}/>
+      <Routes> 
+          <Route exact path="/" element={<PrivateRoutes user={user} />} >
+        <Route element={<Root />}>
+            <Route exact path="/"  element={<Home />}/>
+            <Route exact path="/home"  element={<Home />}/>
+            <Route exact path="/clearance"  element={<Clearance />}/>
+            <Route exact path="*"  element={<Home />}/>
+          </Route>
         </Route>
         <Route exact path="/auth"  element={<Auth/>} />
       </Routes>

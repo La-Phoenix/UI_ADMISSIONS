@@ -1,5 +1,12 @@
 #root {
   height: 100vh;
   padding: 0;
-  margin: 1.5rem;
+}
+
+.homeContainer{
+  height: 100vh;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
 }

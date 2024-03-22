@@ -34,7 +34,7 @@ const Auth = () => {
         <div className="auth">
             <Grid container spacing={3} height="100%">
                 <Grid item xs={12} sm={6} className="leftSection">
-                    <div style={{width: "70%", marginTop: "3rem", marginLeft: "5rem"}}>
+                    <div style={{width: "70%", marginTop: "3rem", marginLeft: "5rem", height: "100%"}}>
                         <Typography variant="h2" style={{fontWeight: "bold", color: "white"}}>
                             ADMISSIONS PORTAL SYSTEM
                         </Typography>

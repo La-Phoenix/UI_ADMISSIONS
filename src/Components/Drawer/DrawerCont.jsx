@@ -10,17 +10,20 @@ import { Box,
 import React, { useState } from "react";
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from "react-router-dom";
 
 
 
 const DrawerCont = () => {
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false);
 
-    const homelinks = ['Clearance', 'Change Of Course', 'Requirements', 'Transfer'];
+    const homelinks = ['Home' ,'Clearance', 'Change Of Course', 'Requirements', 'Transfer'];
 
     const toggleDrawer = () => {
         setOpen(!open)
     }
+
     return(
         <div>
             <IconButton onClick={toggleDrawer}>
@@ -31,7 +34,9 @@ const DrawerCont = () => {
                     <List>
                         {homelinks.map((text, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={() => (
+                                navigate(text)
+                            )}>
                             <ListItemText primary={text} />
                             </ListItemButton>
                         </ListItem>

@@ -1,6 +1,8 @@
-.homeContainer{
+:root {
+    margin: 0;
     height: 100vh;
 }
+
 .header{
     display: flex;
     justify-content: space-between;
