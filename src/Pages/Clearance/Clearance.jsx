@@ -9,7 +9,7 @@ const Clearance = () => {
     const fileFields = ["PASSPORT", "WAEC RESULT", "JAMB RESULT", "MEDICAL REPORT", "BIRTH CERTIFICATE", "JAMB ADMISSION LETTER", "REFERENCE LETTER"]
     return (
         <div className="clearanceContainer">
-            <Grid container spacing={3} height="100vh" style={{backgroundColor: "lightgray", position: "absolute", zIndex: "-1"}}>
+            <Grid container height="100%">
                 <Grid item xs={12} sm={6} className="leftClearanceSection">
                     <div className="background-div"></div>
                     <CardMedia

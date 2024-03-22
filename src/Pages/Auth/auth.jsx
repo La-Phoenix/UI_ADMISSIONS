@@ -23,7 +23,7 @@ const Auth = () => {
         console.log(formData)
         try {
             const resp = await axios.post('http://localhost:5000/api/user/signin', formData)
-            localStorage.setItem("Profile", JSON.stringify({ ...resp.data }));
+            localStorage.setItem("Profile", JSON.stringify(resp.data));
             navigate('/home')
         } catch (error) {
             console.log(error.response.data.message)
@@ -32,9 +32,9 @@ const Auth = () => {
 
     return (
         <div className="auth">
-            <Grid container spacing={3} height="100%">
+            <Grid container height="100%">
                 <Grid item xs={12} sm={6} className="leftSection">
-                    <div style={{width: "70%", marginTop: "3rem", marginLeft: "5rem", height: "100%"}}>
+                    <div style={{width: "70%", marginTop: "3rem", marginLeft: "5rem"}}>
                         <Typography variant="h2" style={{fontWeight: "bold", color: "white"}}>
                             ADMISSIONS PORTAL SYSTEM
                         </Typography>

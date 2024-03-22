@@ -7,15 +7,15 @@ import "./Root.css"
 
 const Root = () => {
     return (
-        <div>
+        <>
             <header className="header">
                 <DrawerCont />
                 <Dropdown />
             </header>
-            <main>
+            <main style={{minHeight: "92%"}}>
                 <Outlet />
             </main>
-        </div>
+        </>
     )
 }
 

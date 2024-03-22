@@ -6,10 +6,6 @@ const Home = () => {
     const [isUser, setUser] = useState(true)
     return (
         <div className="homeContainer">
-            {/* <header className="header">
-                <DrawerCont />
-                <Dropdown />
-            </header> */}
         </div>
     )
     
