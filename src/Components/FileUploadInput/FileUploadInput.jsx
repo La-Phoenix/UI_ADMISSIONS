@@ -1,21 +1,27 @@
 import { Button, FormControl, FormHelperText, Input, InputLabel } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-const FileUploadInput = ({fieldName}) => {
+const FileUploadInput = ({fieldName, addFile, resetFlag }) => {
     const [fileName, setFileName] = useState("");
     const fileInputRef = useRef(null);
     
     const handleFileChange = (event) => {
-        console.log(event)
         const file = event.target.files[0];
         if (file) {
             setFileName(file.name);
+            addFile(fieldName,file)
         }
     };
+
+    useEffect(() => {
+        if (fileInputRef.current){
+            fileInputRef.current.value = ""
+            setFileName("")
+        }
+    }, [resetFlag])
     
-    const handleClick = (event) => {
-        console.log(event)
+    const handleClick = () => {
         fileInputRef.current.click();
     };
     

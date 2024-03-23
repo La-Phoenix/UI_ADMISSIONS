@@ -15,14 +15,16 @@ import PrivateRoutes from "./Utils/PrivateRoute";
 import Root from "./Pages/Root/Root";
 import Clearance from "./Pages/Clearance/Clearance";
 
+export const APIBASEURL = "http://localhost:5000/api"
+
 function App() {
-  const profile = JSON.parse(localStorage.getItem('Profile'))
-  const [user, SetUser] = useState(profile)
+  const user = JSON.parse(localStorage.getItem('Profile'))
+  // const [user, SetUser] = useState(profile)
   
 
-  useEffect(() => {
-    SetUser(profile)
-  }, [user])
+  // useEffect(() => {
+  //   SetUser(profile)
+  // }, [user])
   
 
   return (

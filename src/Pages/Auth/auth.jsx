@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "./auth.css"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import { APIBASEURL } from "../../App";
+import SnackbarComp from "../../Components/SnackBar/SnackBar";
 
 const Auth = () => {
     const navigate = useNavigate()
@@ -10,6 +12,9 @@ const Auth = () => {
         email: "",
         password: ""
     });
+    const [open, setOpen] = useState(false);
+    const [snackBarMsg, setSnackBarMsg] = useState(false);
+    const [snackBarColor, setSnackBarColor] = useState('');
 
     const handleChange = (e) => {
         setFormData((formData) => ({
@@ -20,19 +25,26 @@ const Auth = () => {
 
     const signin = async (event) => {
         event.preventDefault();
-        console.log(formData)
         try {
-            const resp = await axios.post('http://localhost:5000/api/user/signin', formData)
+            const resp = await axios.post(`${APIBASEURL}/user/signin`, formData)
             localStorage.setItem("Profile", JSON.stringify(resp.data));
             navigate('/home')
         } catch (error) {
-            console.log(error.response.data.message)
+            if (error.response && error.response.data){
+                setSnackBarMsg(error.response.data.message)
+                setOpen(true);
+            } else {
+                setSnackBarMsg("Something Went Wrong. Please try again later.")
+                setOpen(true);
+            }
+            setSnackBarColor('red')
         }
     };
 
     return (
         <div className="auth">
             <Grid container height="100%">
+                <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
                 <Grid item xs={12} sm={6} className="leftSection">
                     <div style={{width: "70%", marginTop: "3rem", marginLeft: "5rem"}}>
                         <Typography variant="h2" style={{fontWeight: "bold", color: "white"}}>
