@@ -1,0 +1,9 @@
+.homeContainer {
+    height: 90%;
+    background-image: linear-gradient(rgba(83, 49, 177, 0.5), rgba(51, 11, 160, 0.5)), url("/Images/IMG_4584.JPG");
+    background-size: cover;
+    background-position: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}

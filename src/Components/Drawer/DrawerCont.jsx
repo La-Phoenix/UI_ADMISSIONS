@@ -1,12 +1,13 @@
-import { Box, 
-    Button, 
+import { 
+    Box, 
     IconButton, 
     List, 
     ListItem, 
     ListItemButton, 
-    ListItemIcon, 
     ListItemText 
 } from "@mui/material";
+import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout'
 import React, { useState } from "react";
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,7 +19,19 @@ const DrawerCont = () => {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
 
-    const homelinks = ['Home' ,'Clearance', 'Change Of Course', 'Requirements', 'Transfer'];
+    const homelinks = [{
+        name: 'Verify O/levels', 
+        link: 'verifyOlevels'
+    },{
+        name: 'Clearance Uploads', 
+        link: 'clearance'
+    },{
+        name: 'Change Of Course', 
+        link: 'changeofcourse'
+    }, {
+        name: 'Transfer',
+        link: 'transfer'
+    }];
 
     const toggleDrawer = () => {
         setOpen(!open)
@@ -32,15 +45,54 @@ const DrawerCont = () => {
             <Drawer open={open} onClose={toggleDrawer}>
                 <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer}>
                     <List>
-                        {homelinks.map((text, index) => (
-                        <ListItem key={index} disablePadding>
+                        <ListItem >
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                            >
+                                <HomeIcon />
+                            </IconButton>
                             <ListItemButton onClick={() => (
-                                navigate(text)
+                                navigate('Home')
                             )}>
-                            <ListItemText primary={text} />
+                            <ListItemText primary="Home" />
+                            </ListItemButton>
+                        </ListItem>
+                        {homelinks.map((item, index) => (
+                        <ListItem key={index} >
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <ListItemButton onClick={() => (
+                                navigate(item.link)
+                            )}>
+                            <ListItemText primary={item.name} />
                             </ListItemButton>
                         </ListItem>
                         ))}
+                        <ListItem >
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                            >
+                                <LogoutIcon />
+                            </IconButton>
+                            <ListItemButton onClick={() => {
+                                localStorage.clear()
+                                navigate('Auth')
+                            }}>
+                            <ListItemText primary="Logout" />
+                            </ListItemButton>
+                        </ListItem>
                     </List>
                 </Box>
             </Drawer>

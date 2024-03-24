@@ -48,17 +48,22 @@ const Clearance = () => {
         <div className="clearanceContainer">
             <Grid container height="100%">
                 <Grid item xs={12} sm={6} className="leftClearanceSection">
-                    <div className="background-div"></div>
+                    {fileFields.map((item, index) => (
+                        <form >
+                            <FileUploadInput key={index} label={item} />
+                        </form>
+                    ))}
+                    {/* <div className="background-div"></div>
                     <CardMedia
                         component="img"
                         image="/Images/IMG_4583.JPG"
                         alt="Description of the image"
                         style={{ width: '70%', height: '70%', objectFit: 'cover' }}
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs={12} sm={6} style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%", marginTop: "1rem"}}>
                     <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
-                    <Card style={{ width: "70%", display:"flex", flexDirection: "column", alignItems: "center"}}>
+                    {/* <Card style={{ width: "70%", display:"flex", flexDirection: "column", alignItems: "center"}}>
                         <Typography variant="h5" style={{color: "blue", fontWeight: "bold", textAlign: "center"}}>
                             UPLOAD YOUR DOCUMENTS FOR ADMISSIONS CLEARANCE
                         </Typography>
@@ -74,7 +79,7 @@ const Clearance = () => {
                                 </div>
                             </form>
                         </CardContent>
-                    </Card>
+                    </Card> */}
                 </Grid>
             </Grid>
         </div>

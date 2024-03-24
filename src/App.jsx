@@ -14,17 +14,18 @@ import { Fragment, useEffect, useState } from "react";
 import PrivateRoutes from "./Utils/PrivateRoute";
 import Root from "./Pages/Root/Root";
 import Clearance from "./Pages/Clearance/Clearance";
+import OlevelVerify from "./Pages/OlevelVerify/OlevelVerify";
 
 export const APIBASEURL = "http://localhost:5000/api"
 
 function App() {
-  const user = JSON.parse(localStorage.getItem('Profile'))
-  // const [user, SetUser] = useState(profile)
+  const profile = JSON.parse(localStorage.getItem('Profile'))
+  const [user, SetUser] = useState(profile)
   
 
-  // useEffect(() => {
-  //   SetUser(profile)
-  // }, [user])
+  useEffect(() => {
+    SetUser(profile)
+  }, [user])
   
 
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route exact path="/"  element={<Home />}/>
             <Route exact path="/home"  element={<Home />}/>
             <Route exact path="/clearance"  element={<Clearance />}/>
+            <Route exact path="/verifyOlevels"  element={<OlevelVerify />}/>
             <Route exact path="*"  element={<Home />}/>
           </Route>
         </Route>
