@@ -15,15 +15,21 @@ const OlevelVerify = () => {
             </Breadcrumbs>
             <div style={{ height:"50%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <form>
-                    {["WAEC/NECO", "SCRATCH CARD"].map((item, index) => (
-                        <FileUploadInput key={index} label={item} />
+                    {[{
+                        name: "WAEC/NECO",
+                        ml: "1.8rem"
+                    }, {
+                        name: "SCRATCH CARD",
+                        ml: "0"
+                    }].map((item, index) => (
+                        <FileUploadInput key={index} label={item.name} ml={item.ml} />
                     ))}
                     <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "3rem"}}>
                         <Button 
                             variant="contained"
                             sx={{background: "rgb(105, 101, 101)", width: "30%", ":hover": {
                                 background: "rgb(83, 81, 81)"
-                            }}}
+                            }, borderRadius: "10px"}}
                             size="large"
                             >
                             Verify

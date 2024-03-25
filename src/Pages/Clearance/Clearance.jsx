@@ -1,12 +1,34 @@
 import React, { useState } from "react";
 import "./Clearance.css"
-import { Button, Card, CardContent, CardHeader, CardMedia, Grid, Snackbar, SnackbarContent, Typography } from "@mui/material";
+import { Breadcrumbs, Button, Card, CardContent, CardHeader, CardMedia, Grid, Snackbar, SnackbarContent, Typography } from "@mui/material";
 import FileUploadInput from "../../Components/FileUploadInput/FileUploadInput";
 import axios from "axios";
 import { APIBASEURL } from "../../App";
 import SnackbarComp from "../../Components/SnackBar/SnackBar";
+import { Link } from "react-router-dom";
 
-const fileFields = ["PASSPORT", "WAEC RESULT", "JAMB RESULT", "MEDICAL REPORT", "BIRTH CERTIFICATE", "JAMB ADMISSION LETTER", "REFERENCE LETTER"]
+const fileFields = [{
+    name: "PASSPORT",
+    ml: "11.5rem"
+}, {
+    name: "WAEC RESULT",
+    ml: "9rem"
+}, {
+    name:"JAMB RESULT",
+    ml: "9.2rem"
+}, {
+    name: "MEDICAL REPORT",
+    ml: "6.5rem"
+}, {
+    name: "BIRTH CERTIFICATE",
+    ml: "5.5rem"
+}, {
+    name: "JAMB ADMISSION LETTER",
+    ml: "0.5rem"
+}, {
+    name: "REFERENCE LETTER",
+    ml: "5rem"
+}]
 
 const Clearance = () => {
     let formData = new FormData()
@@ -46,40 +68,37 @@ const Clearance = () => {
 
     return (
         <div className="clearanceContainer">
+            <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
             <Grid container height="100%">
-                <Grid item xs={12} sm={6} className="leftClearanceSection">
+                <Breadcrumbs separator={<span style={{fontSize: "50px"}} >/</span>} style={{marginLeft: "1rem"}} aria-label="breadcrumb">
+                    <Link style={{textDecoration: "none"}} href="/Home">
+                        <Typography variant="h3" color="blue">Home</Typography>
+                    </Link>
+                    <Typography variant="h3" color="blue">Clearance Uploads</Typography>
+                </Breadcrumbs>
+                <Grid item xs={12} sm={8} className="leftClearanceSection">
                     {fileFields.map((item, index) => (
                         <form >
-                            <FileUploadInput key={index} label={item} />
+                            <FileUploadInput key={index} ml={item.ml} label={item.name} />
                         </form>
                     ))}
-                    {/* <div className="background-div"></div>
-                    <CardMedia
-                        component="img"
-                        image="/Images/IMG_4583.JPG"
-                        alt="Description of the image"
-                        style={{ width: '70%', height: '70%', objectFit: 'cover' }}
-                    /> */}
                 </Grid>
-                <Grid item xs={12} sm={6} style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%", marginTop: "1rem"}}>
-                    <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
-                    {/* <Card style={{ width: "70%", display:"flex", flexDirection: "column", alignItems: "center"}}>
-                        <Typography variant="h5" style={{color: "blue", fontWeight: "bold", textAlign: "center"}}>
-                            UPLOAD YOUR DOCUMENTS FOR ADMISSIONS CLEARANCE
-                        </Typography>
-                        <CardContent>
-                            <form className="" autoComplete="off" style={{width: "100%"}}>
-                                <Grid container direction="column" alignItems="center" style={{width: "100%"}}>
-                                    {fileFields.map((value, ind) => (
-                                        <FileUploadInput key={ind} fieldName={value} resetFlag={resetFileInput} addFile={addFile} />
-                                        ))}
-                                </Grid>
-                                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                    <Button variant="contained" style={{marginTop: "0.5rem"}} onClick={submitFiles}>Submit</Button>
-                                </div>
-                            </form>
-                        </CardContent>
-                    </Card> */}
+                <Grid item xs={12} sm={4} style={{ width: "100%", marginTop: "1rem", height: "100%"}}>
+                    <div style={{ height: "50%" }}>
+                        <label style={{fontSize: "24px", fontWeight: "500", color: "rgb(83, 81, 81)", marginRight: "1rem"}}>POSTUTME SCORE</label>
+                        <input type="number" />
+                    </div>
+                    <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "3rem"}}>
+                            <Button 
+                                variant="contained"
+                                sx={{background: "rgb(105, 101, 101)", width: "30%", ":hover": {
+                                    background: "rgb(83, 81, 81)"
+                                }}}
+                                size="large"
+                                >
+                                Submit
+                            </Button>
+                        </div>
                 </Grid>
             </Grid>
         </div>
