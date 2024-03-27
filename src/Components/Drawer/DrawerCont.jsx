@@ -12,11 +12,13 @@ import React, { useState } from "react";
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from "react-router-dom";
+import { AuthData } from "../../Utils/AuthWrapper";
 
 
 
 const DrawerCont = () => {
     const navigate = useNavigate()
+    const { logout } = AuthData()
     const [open, setOpen] = useState(false);
 
     const homelinks = [{
@@ -87,8 +89,8 @@ const DrawerCont = () => {
                                 <LogoutIcon />
                             </IconButton>
                             <ListItemButton onClick={() => {
-                                localStorage.clear()
-                                navigate('Auth')
+                                logout()
+                                navigate('auth')
                             }}>
                             <ListItemText primary="Logout" />
                             </ListItemButton>

@@ -10,7 +10,7 @@ const Root = () => {
         <>
             <header className="header">
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" style={{background: "#fff"}}>
+                <AppBar position="fixed" style={{background: "#fff"}}>
                     <Toolbar style={{display: "flex", justifyContent: "space-between"}}>
                         <DrawerCont />
                     <div style={{display: "flex"}}>
@@ -28,7 +28,7 @@ const Root = () => {
                 </AppBar>
                 </Box>
             </header>
-            <main style={{height: "92%"}}>
+            <main style={{height: "92%", marginTop: "4rem"}}>
                 <Outlet />
             </main>
         </>

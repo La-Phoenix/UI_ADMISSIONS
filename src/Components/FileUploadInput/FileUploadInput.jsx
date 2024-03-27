@@ -31,9 +31,7 @@ const FileUploadInput = ({label, addFile, resetFlag, ml }) => {
             <label style={{marginRight: "4rem", fontSize: "24px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>
                 {label}
             </label>
-            {/* <span> */}
-                <input style={{marginLeft: ml}} type="file" accept="image/*"></input>
-            {/* </span> */}
+            <input style={{marginLeft: ml}} type="file" accept="image/*"></input>
         </div>
     );
   }

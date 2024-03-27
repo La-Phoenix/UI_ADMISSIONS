@@ -1,13 +1,13 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import "./auth.css"
-import axios from "axios"
 import { useNavigate } from "react-router-dom";
-import { APIBASEURL } from "../../App";
 import SnackbarComp from "../../Components/SnackBar/SnackBar";
+import { AuthData } from "../../Utils/AuthWrapper";
 
 const Auth = () => {
     const navigate = useNavigate()
+    const { login } = AuthData()
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -26,9 +26,8 @@ const Auth = () => {
     const signin = async (event) => {
         event.preventDefault();
         try {
-            const resp = await axios.post(`${APIBASEURL}/user/signin`, formData)
-            localStorage.setItem("Profile", JSON.stringify(resp.data));
-            navigate('/home')
+            login(formData)
+            navigate('/')
         } catch (error) {
             if (error.response && error.response.data){
                 setSnackBarMsg(error.response.data.message)

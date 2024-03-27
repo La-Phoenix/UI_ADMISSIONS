@@ -6,7 +6,7 @@ import FileUploadInput from "../../Components/FileUploadInput/FileUploadInput";
 
 const OlevelVerify = () => {
     return (
-        <Container maxWidth={false}  sx={{ height: "100%", pt: "3rem"}}>
+        <Container maxWidth={false}  sx={{ height: "100%"}}>
             <Breadcrumbs separator={<span style={{fontSize: "50px"}}>/</span>} aria-label="breadcrumb">
                 <Link style={{textDecoration: "none"}} href="/Home">
                     <Typography variant="h3" color="blue">Home</Typography>
