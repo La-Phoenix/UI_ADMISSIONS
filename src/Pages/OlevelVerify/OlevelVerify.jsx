@@ -62,14 +62,20 @@ const OlevelVerify = () => {
     }
 
     return (
-        <>
-            <SnackbarComp open={openSnack} setOpen={setOpenSnack} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
+            <Container maxWidth={false}  sx={{ height: "100%", paddingTop: "3rem"}}>
+                <SnackbarComp open={openSnack} setOpen={setOpenSnack} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
+                <Breadcrumbs separator={<span style={{fontSize: "30px"}}>/</span>} aria-label="breadcrumb">
+                    <Link style={{textDecoration: "none"}} href="/Home">
+                        <Typography variant="h4" color="#4848a3">Home</Typography>
+                    </Link>
+                    <Typography variant="h4" color="#4848a3">Verify O/levels</Typography>
+                </Breadcrumbs>
             {
                 isDocSubmitted ? (
-                    <div style={{height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <div style={{height: "80%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                         <Button 
                             variant="contained"
-                            sx={{background: "rgb(105, 101, 101)", width: "25%", height: "15%", fontSize: "34px", fontWeight: "600", ":hover": {
+                            sx={{background: "rgb(105, 101, 101)", width: "25%", height: "15%", fontSize: "1.5rem", fontWeight: "600", ":hover": {
                                     background: "rgb(83, 81, 81)"
                                 }, borderRadius: "10px"}}
                             size="large"
@@ -92,13 +98,6 @@ const OlevelVerify = () => {
                         </Modal>
                     </div>
                 ) : (
-                    <Container maxWidth={false}  sx={{ height: "100%"}}>
-                        <Breadcrumbs separator={<span style={{fontSize: "50px"}}>/</span>} aria-label="breadcrumb">
-                            <Link style={{textDecoration: "none"}} href="/Home">
-                                <Typography variant="h3" color="blue">Home</Typography>
-                            </Link>
-                            <Typography variant="h3" color="blue">Verify O/levels</Typography>
-                        </Breadcrumbs>
                         <div style={{ height:"50%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <form>
                                 {[{
@@ -126,10 +125,9 @@ const OlevelVerify = () => {
                                 </div>
                             </form>
                         </div>
-                    </Container>
                 )
             }
-        </>
+            </Container>
     )
 }
 

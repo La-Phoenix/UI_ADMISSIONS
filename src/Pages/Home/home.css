@@ -1,9 +1,21 @@
 .homeContainer {
     height: 90%;
+    margin: 0 3rem;
     background-image: linear-gradient(rgba(83, 49, 177, 0.5), rgba(51, 11, 160, 0.5)), url("/Images/IMG_4584.JPG");
     background-size: cover;
     background-position: center;
     display: flex !important;
+    flex-direction: column;
     align-items: center !important;
     justify-content: center !important;
+}
+
+@media (max-width: 650px) {
+    .homeContainer {
+        padding-top: 2rem;
+        height: 100%;
+    }
+    .lower-text {
+        margin: 0 1rem !important;
+    }
 }

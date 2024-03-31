@@ -25,13 +25,15 @@ const Auth = () => {
 
     const signin = async (event) => {
         event.preventDefault();
-        try {
-            login(formData)
-            navigate('/')
-        } catch (error) {
+        const error = await login(formData)
+        console.log(error)
+        if(error){
             if (error.response && error.response.data){
                 setSnackBarMsg(error.response.data.message)
                 setOpen(true);
+            } else if (error.message){
+                setSnackBarMsg(error.message)
+                setOpen(true); 
             } else {
                 setSnackBarMsg("Something Went Wrong. Please try again later.")
                 setOpen(true);
@@ -44,14 +46,14 @@ const Auth = () => {
         <div className="auth">
             <Grid container height="100%">
                 <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
-                <Grid item xs={12} sm={6} className="leftSection">
-                    <div style={{width: "70%", marginTop: "3rem", marginLeft: "5rem"}}>
-                        <Typography variant="h2" style={{fontWeight: "bold", color: "white"}}>
+                <Grid item sm={6}  className="leftSection">
+                    <div className="leftSectTextCont">
+                        <Typography variant="h3" style={{fontWeight: "bold", color: "white"}}>
                             ADMISSIONS PORTAL SYSTEM
                         </Typography>
                     </div>
                 </Grid>
-                <Grid item xs={12} sm={6} style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
+                <Grid item sm={6} style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
                     <form className="" autoComplete="off" style={{width: "70%"}} onSubmit={signin}>
                         <Grid container direction="column" alignItems="center" style={{width: "100%"}}>
                             <Typography variant="h5" style={{color: "brown", fontWeight: "bold", paddingBottom: "1rem"}}>

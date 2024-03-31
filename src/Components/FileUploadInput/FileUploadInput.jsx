@@ -20,8 +20,8 @@ const FileUploadInput = ({label, addFile, resetFlag, ml, fieldName}) => {
 
     
     return (
-        <div style={{marginBottom: "1.5rem"}}>
-            <label style={{marginRight: "4rem", fontSize: "24px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>
+        <div style={{marginBottom: "1.5rem"}} className="fileInputCont">
+            <label style={{marginRight: "4rem", fontSize: "24px", fontWeight: "500", color: "rgb(83, 81, 81)", alignSelf: "start"}}>
                 {label}
             </label>
             <input

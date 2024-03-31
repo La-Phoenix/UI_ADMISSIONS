@@ -21,3 +21,15 @@ input[type=file] {
     input[type=file]::file-selector-button:hover {
       background: rgb(83, 81, 81);
     }
+
+@media (max-width: 634px){
+  .fileInputCont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  input[type=file] {
+    width: 100%;
+    margin: 0 !important;
+  }
+}

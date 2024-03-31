@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../Pages/Home/Home";
 import Clearance from "../Pages/Clearance/Clearance";
 import OlevelVerify from "../Pages/OlevelVerify/OlevelVerify";
@@ -26,6 +26,7 @@ const pages = [
 ]
 
 export const AuthWrapper = () => {
+    const navigate = useNavigate()
     const profile = JSON.parse(localStorage.getItem('Profile'));
     const [ user, setUser ] = useState({
         name: "",
@@ -43,12 +44,17 @@ export const AuthWrapper = () => {
     }, [])
 
     const login = async (formData) => {
-        const resp = await axios.post(`${APIBASEURL}/user/signin`, formData)
-        localStorage.setItem("Profile", JSON.stringify(resp.data));
-        setUser({
-            ...resp.data,
-            isAuthenticated: true
-        })
+        try {
+            const resp = await axios.post(`${APIBASEURL}/user/signin`, formData)
+            localStorage.setItem("Profile", JSON.stringify(resp.data));
+            setUser({
+                ...resp.data,
+                isAuthenticated: true
+            })
+            navigate('/')
+        } catch (error) {
+            return error
+        }
     }
 
     const logout = (f) => {

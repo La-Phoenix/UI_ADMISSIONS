@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Clearance.css"
 import { Breadcrumbs, Button, Card, CardContent, CardHeader, CardMedia, Grid, Snackbar, SnackbarContent, Typography } from "@mui/material";
 import FileUploadInput from "../../Components/FileUploadInput/FileUploadInput";
@@ -9,61 +9,56 @@ import { Link } from "react-router-dom";
 
 const fileFields = [{
     name: "PASSPORT",
-    ml: "11.5rem"
+    ml: "11.5rem",
+    fieldName: "PASSPORT"
 }, {
     name: "WAEC RESULT",
+    fieldName: "WAEC_RESULT",
     ml: "9rem"
 }, {
     name:"JAMB RESULT",
+    fieldName:"JAMB_RESULT",
     ml: "9.2rem"
 }, {
     name: "MEDICAL REPORT",
+    fieldName: "MEDICAL_REPORT",
     ml: "6.5rem"
 }, {
     name: "BIRTH CERTIFICATE",
+    fieldName: "BIRTH_CERTIFICATE",
     ml: "5.5rem"
 }, {
     name: "JAMB ADMISSION LETTER",
+    fieldName: "JAMB_ADMISSION_LETTER",
     ml: "0.5rem"
 }, {
     name: "REFERENCE LETTER",
+    fieldName: "REFERENCE_LETTER",
     ml: "5rem"
 }]
 
 const Clearance = () => {
+    const fileInputRef = useRef(null);
     let formData = new FormData()
-    const [resetFileInput, setResetFileInput] = useState(false);
+    const user = JSON.parse(localStorage.getItem("Profile"));
+    const [resetFlag, setResetFlag] = useState(false);
     const [open, setOpen] = useState(false);
     const [snackBarMsg, setSnackBarMsg] = useState(false);
     const [snackBarColor, setSnackBarColor] = useState('');
+    const [postUtmeScore, setPostUtmeScore] = useState(undefined);
 
 
     const addFile = (fieldName, file) => {
         formData.set(fieldName, file);
-        // for (let [key, value] of formData.entries()) {
-        //     console.log(`${key}: ${value}`);
-        // }
     }
     
+    const handleScoreChange = (e) => {
+        setPostUtmeScore(e.target.value)
+    }
+
     const submitFiles = async (e) => {
-        try {
-            const response = await axios.post(`${APIBASEURL}/user/clearance`,  formData)
-            console.log(response.data.message)
-            setResetFileInput((prev => !prev))
-            setSnackBarColor('')
-            setSnackBarMsg(response.data.message)
-            setOpen(true);
-        } catch (error) {
-            setResetFileInput(true)
-            if (error.response && error.response.data){
-                setSnackBarMsg(error.response.data.message)
-                setOpen(true);
-            } else {
-                setSnackBarMsg("Something Went Wrong. Please try again later.")
-                setOpen(true);
-            }
-            setSnackBarColor('red')
-        }
+        console.log(postUtmeScore)
+        formData.set('postUtmeScore', postUtmeScore)
     }
 
     return (
@@ -78,15 +73,13 @@ const Clearance = () => {
                 </Breadcrumbs>
                 <Grid item xs={12} sm={8} className="leftClearanceSection">
                     {fileFields.map((item, index) => (
-                        <form >
-                            <FileUploadInput key={index} ml={item.ml} label={item.name} />
-                        </form>
+                        <FileUploadInput key={index} ml={item.ml} label={item.name} addFile={addFile} resetFlag={resetFlag} fieldName={item.fieldName} />
                     ))}
                 </Grid>
                 <Grid item xs={12} sm={4} style={{ width: "100%", marginTop: "1rem", height: "100%"}}>
                     <div style={{ height: "50%" }}>
                         <label style={{fontSize: "24px", fontWeight: "500", color: "rgb(83, 81, 81)", marginRight: "1rem"}}>POSTUTME SCORE</label>
-                        <input type="number" />
+                        <input type="number" ref={fileInputRef} onChange={handleScoreChange} />
                     </div>
                     <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "3rem"}}>
                             <Button 
@@ -95,6 +88,7 @@ const Clearance = () => {
                                     background: "rgb(83, 81, 81)"
                                 }}}
                                 size="large"
+                                onClick={submitFiles}
                                 >
                                 Submit
                             </Button>
