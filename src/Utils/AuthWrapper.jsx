@@ -46,9 +46,9 @@ export const AuthWrapper = () => {
     const login = async (formData) => {
         try {
             const resp = await axios.post(`${APIBASEURL}/user/signin`, formData)
-            localStorage.setItem("Profile", JSON.stringify(resp.data));
+            localStorage.setItem("Profile", JSON.stringify(resp.data?.result));
             setUser({
-                ...resp.data,
+                ...resp.data?.result,
                 isAuthenticated: true
             })
             navigate('/')
@@ -66,7 +66,7 @@ export const AuthWrapper = () => {
 
 
     return (
-        <AuthContext.Provider value={{user, login, logout}}>
+        <AuthContext.Provider value={{user, login, logout, setUser}}>
             <>
                 <Routes>
                     {!user.isAuthenticated ? (

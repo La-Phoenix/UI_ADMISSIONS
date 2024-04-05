@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DrawerCont from "../../Components/Drawer/DrawerCont";
 import { Outlet } from "react-router-dom";
 import "./Root.css"
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AuthData } from "../../Utils/AuthWrapper";
 
 
 const Root = () => {
+    const profile = JSON.parse(localStorage.getItem('Profile'));
+    const {setUser, user} = AuthData()
+    
+    useEffect(() => {
+        setUser({
+            ...user,
+            ...profile
+        })
+    },[])
+
     return (
         <>
             <header className="header">

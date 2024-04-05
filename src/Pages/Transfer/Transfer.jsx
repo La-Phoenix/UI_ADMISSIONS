@@ -3,26 +3,27 @@ import "./Transfer.css"
 import { Breadcrumbs, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import SnackbarComp from "../../Components/SnackBar/SnackBar";
+import { AuthData } from "../../Utils/AuthWrapper";
 
 const science = [
     {
         name: "computer science",
-        jambSubj: ["mathematics", "english", "physics", "chemistry"],
-        olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
+        jambSubj: ["mathematics", "english language", "physics", "chemistry"],
+        olevelSubj: ["mathematics", "english language", "biology", "physics", "chemistry"],
         // optJambSubj: ["crs/irs", "economics", "history", "geography"],
         // optOlevelSubj: ["chemistry", "agric", "", "geography", "commerce"],
         postUtmeScore: "70.75"
     },
     {
         name: "physics",
-        jambSubj: ["mathematics", "english", "physics", "chemistry"],
-        olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
+        jambSubj: ["mathematics", "english language", "physics", "chemistry"],
+        olevelSubj: ["mathematics", "english language", "biology", "physics", "chemistry"],
         postUtmeScore: "50"
     },
     {
         name: "chemistry",
-        jambSubj: ["mathematics", "english", "physics", "chemistry"],
-        olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
+        jambSubj: ["mathematics", "english language", "physics", "chemistry"],
+        olevelSubj: ["mathematics", "english language", "biology", "physics", "chemistry"],
         // optJambSubj: ["crs/irs", "economics", "history", "geography"],
         // olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
         postUtmeScore: "50"
@@ -32,8 +33,8 @@ const science = [
 const arts = [
         {
             name: "law",
-            jambSubj: ["history", "english", "literature", "government"],
-            olevelSubj: ["history", "english", "government", "literature", "mathematics"],
+            jambSubj: ["history", "english language", "literature", "government"],
+            olevelSubj: ["history", "english language", "government", "literature", "mathematics"],
             // optJambSubj: ["crs/irs", "economics", "history", "geography"],
             // optOlevelSubj: ["crs/irs", "economics", "history", "geography", "commerce"],
             postUtmeScore: "67.25"
@@ -41,7 +42,7 @@ const arts = [
 ]
 
 const availableDeps = ["Computer Science", "Physics", "Chemistry", "Law"]
-const scienceSubjs = ["English Language", "Mathematics", "Civic Education", "Biology", "Physics", "Chemistry", "Further Mathematics", "Agricultural Science", "Geography", "Technical Drawing", "Technical Drawing", "Tourism"]
+const scienceSubjs = ["English Language", "Mathematics", "Civic Education", "Biology", "Physics", "Chemistry", "Further Mathematics", "Agricultural Science", "Geography", "Technical Drawing", "Tourism"]
 const artSubjs = [
     "Mathematics",
     "English Language",
@@ -60,6 +61,7 @@ const artSubjs = [
 ];
 
 const Transfer = () => {
+    const { user } = AuthData()
     const [formData, setFormData] = useState([])
     const [availableDeps1, setAvailableDeps1] = useState(["Computer Science", "Physics", "Chemistry", "Law"])
     const [availableDeps2, setAvailableDeps2] = useState(["Computer Science", "Physics", "Chemistry", "Law"])
@@ -100,7 +102,15 @@ const Transfer = () => {
         input10: "",
     });
 
+    const validateSubjects = (stuSubjs, reqSubjs) => {
+        const uniqStuSub = [...new Set(stuSubjs)]
+        console.log(uniqStuSub)
+        console.log(reqSubjs)
+        return uniqStuSub.length === reqSubjs.length && uniqStuSub.every((sub) => reqSubjs.includes(sub.toLowerCase()))
+    }
+
     const submit = () => {
+        console.log(user)
         console.log(oldDep)
         console.log(newDep)
         console.log(olevelFields)
@@ -133,26 +143,71 @@ const Transfer = () => {
             setOpen(true)
             return; 
         }
-
+        
+        let reqOlvlSubjs;
+        let reqJambSubjs;
         const isNewScience = science.find((dep) => dep.name === newDep.toLowerCase())
+        if (!user.postUtmeScore) {
+            setSnackBarMsg("Pease complete your clearance to proceed department transfer")
+            setSnackBarColor("red")
+            setOpen(true)
+            return; 
+        }
+        if (isNewScience) {
+            console.log(user.postUtmeScore)
+            console.log(isNewScience.postUtmeScore)
+            if(user.postUtmeScore < isNewScience.postUtmeScore) {
+                setSnackBarMsg("Student not eligible: POST-UTME score requirement not met")
+                setSnackBarColor("red")
+                setOpen(true)
+                return;
+            }
+            reqOlvlSubjs = isNewScience.olevelSubj;
+            reqJambSubjs = isNewScience.jambSubj;
+        }
         const isNewArts = arts.find((dep) => dep.name === newDep.toLowerCase())
+        if (isNewArts) {
+            reqOlvlSubjs = isNewArts.olevelSubj
+            reqJambSubjs = isNewScience.jambSubj;
+        }
         if (isNewScience) {
             const isOldScience = science.find((dep) => dep.name === oldDep.toLowerCase())
             if(!isOldScience) {
-                setSnackBarMsg("Student not eligible")
+                setSnackBarMsg("Student not eligible: Faculty requirement not met")
                 setSnackBarColor("red")
                 setOpen(true)
                 return;
             }
         }
         if (isNewArts) {
-            const isOldArts = arts.find((dep) => dep.name === oldDep.toLowerCase())
-            if(!isOldArts) {
-                setSnackBarMsg("Student not eligible")
+            console.log(user.postUtmeScore)
+            console.log(isOldArts.postUtmeScore)
+            if(user.postUtmeScore < isNewArts.postUtmeScore) {
+                setSnackBarMsg("Student not eligible: POST-UTME score requirement not met")
                 setSnackBarColor("red")
                 setOpen(true)
                 return;
             }
+            const isOldArts = arts.find((dep) => dep.name === oldDep.toLowerCase())
+            if(!isOldArts) {
+                setSnackBarMsg("Student not eligible: Faculty requirement not met")
+                setSnackBarColor("red")
+                setOpen(true)
+                return;
+            }
+        }
+         
+        if(!validateSubjects(olevelFields, reqOlvlSubjs)){
+            setSnackBarMsg("Student not eligible: O/LEVEL subject requirement not met")
+            setSnackBarColor("red")
+            setOpen(true)
+            return;
+        }
+        if(!validateSubjects(jambFields, reqJambSubjs)){
+            setSnackBarMsg("Student not eligible: JAMB subject requirement not met")
+            setSnackBarColor("red")
+            setOpen(true)
+            return;
         }
     }
 
