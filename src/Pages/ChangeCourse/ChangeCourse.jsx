@@ -8,9 +8,9 @@ const ChangeCourse = () => {
         <div className="changeCourseCont">
             <Breadcrumbs separator={<span style={{fontSize: "50px"}} >/</span>} style={{marginLeft: "1rem"}} aria-label="breadcrumb">
                 <Link style={{textDecoration: "none"}} href="/Home">
-                    <Typography variant="h3" color="blue">Home</Typography>
+                    <Typography variant="h4" color="#4848a3">Home</Typography>
                 </Link>
-                <Typography variant="h3" color="blue">Change Of Course</Typography>
+                <Typography variant="h4" color="#4848a3">Change Of Course</Typography>
             </Breadcrumbs>
             <div style={{width: "100%", display: "flex", justifyContent: "center", paddingTop: "3rem", height: "60%"}}>
                 <Typography fontSize= "24px" fontWeight="600">Request:</Typography>

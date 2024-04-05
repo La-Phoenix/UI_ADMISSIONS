@@ -64,37 +64,38 @@ const Clearance = () => {
     return (
         <div className="clearanceContainer">
             <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
-            <Grid container height="100%">
-                <Breadcrumbs separator={<span style={{fontSize: "50px"}} >/</span>} style={{marginLeft: "1rem"}} aria-label="breadcrumb">
-                    <Link style={{textDecoration: "none"}} href="/Home">
-                        <Typography variant="h3" color="blue">Home</Typography>
-                    </Link>
-                    <Typography variant="h3" color="blue">Clearance Uploads</Typography>
-                </Breadcrumbs>
-                <Grid item xs={12} sm={8} className="leftClearanceSection">
+            <Breadcrumbs separator={<span style={{fontSize: "40px"}} >/</span>} style={{marginLeft: "5rem"}}>
+                <Link style={{textDecoration: "none"}} href="/Home">
+                    <Typography variant="h4" color="#4848a3">Home</Typography>
+                </Link>
+                <Typography variant="h4" color="#4848a3">Clearance Uploads</Typography>
+            </Breadcrumbs>
+            <div className="clearanceMain" style={{ display: "flex"}}>
+                <div className="leftClearanceSection">
                     {fileFields.map((item, index) => (
                         <FileUploadInput key={index} ml={item.ml} label={item.name} addFile={addFile} resetFlag={resetFlag} fieldName={item.fieldName} />
                     ))}
-                </Grid>
-                <Grid item xs={12} sm={4} style={{ width: "100%", marginTop: "1rem", height: "100%"}}>
+                </div>
+                <div  className="otherClearanceSection" style={{ width: "40%", marginTop: "1rem", height: "100%", display: "flex", justifyContent: "center"}}>
                     <div style={{ height: "50%" }}>
                         <label style={{fontSize: "24px", fontWeight: "500", color: "rgb(83, 81, 81)", marginRight: "1rem"}}>POSTUTME SCORE</label>
-                        <input type="number" ref={fileInputRef} onChange={handleScoreChange} />
+                        <input  type="number" ref={fileInputRef} onChange={handleScoreChange}/>
                     </div>
-                    <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "3rem"}}>
-                            <Button 
-                                variant="contained"
-                                sx={{background: "rgb(105, 101, 101)", width: "30%", ":hover": {
-                                    background: "rgb(83, 81, 81)"
-                                }}}
-                                size="large"
-                                onClick={submitFiles}
-                                >
-                                Submit
-                            </Button>
-                        </div>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
+            <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "1rem", height: "15%"}}>
+                <Button 
+                variant="contained"
+                className="button"
+                sx={{background: "rgb(105, 101, 101)", height: "50%" , ":hover": {
+                    background: "rgb(83, 81, 81)"
+                    }}}
+                    size="large"
+                    onClick={submitFiles}
+                    >
+                    Submit
+                    </Button>
+            </div>
         </div>
     )
 }

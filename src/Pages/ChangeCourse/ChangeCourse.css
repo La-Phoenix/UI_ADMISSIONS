@@ -1,5 +1,11 @@
 .changeCourseCont {
     height: 100%;
-    margin-top: 3rem;
+    margin-top: 6rem;
     color: rgb(83, 81, 81);
+}
+
+@media (max-width: 440px) {
+    .changeCourseCont {
+        margin-top: 6rem !important;
+    }
 }

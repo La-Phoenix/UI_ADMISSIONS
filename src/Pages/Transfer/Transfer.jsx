@@ -1,101 +1,208 @@
 import React, { useState } from "react";
 import "./Transfer.css"
-import { Breadcrumbs, Button, Grid, Typography } from "@mui/material";
+import { Breadcrumbs, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import SnackbarComp from "../../Components/SnackBar/SnackBar";
 
 const science = [
     {
-        name: "computerscience",
+        name: "computer science",
         jambSubj: ["mathematics", "english", "physics", "chemistry"],
         olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
-        postUtmeScore: "70"
+        // optJambSubj: ["crs/irs", "economics", "history", "geography"],
+        // optOlevelSubj: ["chemistry", "agric", "", "geography", "commerce"],
+        postUtmeScore: "70.75"
     },
     {
-        name: "statistics",
+        name: "physics",
         jambSubj: ["mathematics", "english", "physics", "chemistry"],
         olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
-        postUtmeScore: "62"
+        postUtmeScore: "50"
+    },
+    {
+        name: "chemistry",
+        jambSubj: ["mathematics", "english", "physics", "chemistry"],
+        olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
+        // optJambSubj: ["crs/irs", "economics", "history", "geography"],
+        // olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
+        postUtmeScore: "50"
     }   
 ]
 
-const tech = [
+const arts = [
         {
-            name: "petroleumengineering",
-            jambSubj: ["mathematics", "english", "physics", "chemistry"],
-            olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
-            postUtmeScore: "65"
+            name: "law",
+            jambSubj: ["history", "english", "literature", "government"],
+            olevelSubj: ["history", "english", "government", "literature", "mathematics"],
+            // optJambSubj: ["crs/irs", "economics", "history", "geography"],
+            // optOlevelSubj: ["crs/irs", "economics", "history", "geography", "commerce"],
+            postUtmeScore: "67.25"
         }
 ]
 
-const faculties = [
-   { 
-        science : {
-            computerscience: {
-                jambSubj: ["mathematics", "english", "physics", "chemistry"],
-                olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
-                postUtmeScore: "70"
-            },
-            statistics: {
-                jambSubj: ["mathematics", "english", "physics", "chemistry"],
-                olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
-                postUtmeScore: "62"
-            }
-        }
-    },
-    {
-        tech : {
-            petroleumengineering: {
-                jambSubj: ["mathematics", "english", "physics", "chemistry"],
-                olevelSubj: ["mathematics", "english", "biology", "physics", "chemistry"],
-                postUtmeScore: "65"
-            }
-        }
-    }
-]
+const availableDeps = ["Computer Science", "Physics", "Chemistry", "Law"]
+const scienceSubjs = ["English Language", "Mathematics", "Civic Education", "Biology", "Physics", "Chemistry", "Further Mathematics", "Agricultural Science", "Geography", "Technical Drawing", "Technical Drawing", "Tourism"]
+const artSubjs = [
+    "Mathematics",
+    "English Language",
+    "Literature in English",
+    "Government",
+    "Christian Religious Studies",
+    "Islamic Religious Studies",
+    "History",
+    "Geography",
+    "Economics",
+    "Yoruba",
+    "Visual Arts",
+    "Theatre Arts",
+    "Sociology",
+    "Psychology"
+];
 
 const Transfer = () => {
     const [formData, setFormData] = useState([])
+    const [availableDeps1, setAvailableDeps1] = useState(["Computer Science", "Physics", "Chemistry", "Law"])
+    const [availableDeps2, setAvailableDeps2] = useState(["Computer Science", "Physics", "Chemistry", "Law"])
     const [oldDep, setOldDep] = useState("")
     const [newDep, setNewDep] = useState("")
-    const [olevelSubj, setOlevelSubj] = useState(["", "", "", "", ""])
-    const [jambSubj, setJambSubj] = useState(["", "", "", ""])
+    const [olevelFields, setOlevelFields] = useState(["", "", "", "", ""])
+    const [olevelSubj, setOlevelSubj] = useState([])
+    const [jambFields, setJambFields] = useState(["", "", "", ""])
+    const [jambSubj, setJambSubj] = useState([])
     const navigate = useNavigate()
     const [isTranser, setIsTransfer] = useState(false)
+
+    const [open, setOpen] = useState(false);
+    const [snackBarMsg, setSnackBarMsg] = useState(false);
+    const [snackBarColor, setSnackBarColor] = useState('');
+    const [isInputErrors, setISInputErrors] = useState({
+        input1: false,
+        input2: false,
+        input3: false,
+        input4: false,
+        input5: false,
+        input6: false,
+        input7: false,
+        input8: false,
+        input9: false,
+        input10: false,
+    });
+    const [inputError, setInputError] = useState({
+        input1: "",
+        input2: "",
+        input3: "",
+        input4: "",
+        input5: "",
+        input6: "",
+        input7: "",
+        input8: "",
+        input9: "",
+        input10: "",
+    });
 
     const submit = () => {
         console.log(oldDep)
         console.log(newDep)
-        console.log(olevelSubj)
-        console.log(jambSubj)
-        isDep = science.find((dep) => dep.name == newDep)
-        if (!isDep) isDep = tech.find((dep) => dep.name == newDep)
-        if (!isDep) {
-
-        } else {
-            
+        console.log(olevelFields)
+        console.log(jambFields)
+        if(!oldDep) {
+            setSnackBarMsg("Old Department Is Required")
+            setSnackBarColor("red")
+            setOpen(true)
+            return;
+        }
+        
+        if(!newDep) {
+            setSnackBarMsg("New Department Is Required")
+            setSnackBarColor("red")
+            setOpen(true)
+            return; 
+        }
+        
+        const olevelInvalid = olevelFields.some(element => element === "");
+        const jambInValid = jambFields.some(element => element === "");
+        if(olevelInvalid) {
+            setSnackBarMsg("All O/level fields are required")
+            setSnackBarColor("red")
+            setOpen(true)
+            return; 
+        }
+        if(jambInValid) {
+            setSnackBarMsg("All JAMB fields are required")
+            setSnackBarColor("red")
+            setOpen(true)
+            return; 
         }
 
+        const isNewScience = science.find((dep) => dep.name === newDep.toLowerCase())
+        const isNewArts = arts.find((dep) => dep.name === newDep.toLowerCase())
+        if (isNewScience) {
+            const isOldScience = science.find((dep) => dep.name === oldDep.toLowerCase())
+            if(!isOldScience) {
+                setSnackBarMsg("Student not eligible")
+                setSnackBarColor("red")
+                setOpen(true)
+                return;
+            }
+        }
+        if (isNewArts) {
+            const isOldArts = arts.find((dep) => dep.name === oldDep.toLowerCase())
+            if(!isOldArts) {
+                setSnackBarMsg("Student not eligible")
+                setSnackBarColor("red")
+                setOpen(true)
+                return;
+            }
+        }
     }
 
-    const handleInputChange = (index, event, subj, setSubj) => {
-        const newInputValues = [...subj];
+    const handleInputChange = (index, event, subjs, setSubj, setDropDownSubjs) => {
+        const newInputValues = [...subjs];
         newInputValues[index] = event.target.value;
         setSubj(newInputValues);
+        // setDropDownSubjs((prev) => prev.filter((_subj) => _subj !== event.target.value))
+        // console.log(event.target.value)
+        // console.log(olevelSubj, jambSubj)
     };
+
+    const onInput1Change = (e) => {
+        const newDeps = availableDeps.filter((dep) => dep !== e.target.value)
+        if (e.target.value === newDep) {
+            setNewDep("")
+        }
+        setAvailableDeps2(newDeps)
+        setOldDep(e.target.value)
+        const isScience = science.find((dep) => dep.name === e.target.value.toLowerCase())
+        setOlevelSubj(scienceSubjs)
+        if(!isScience) {
+            const isArt = arts.find((dep) => dep.name === e.target.value.toLowerCase())
+            setOlevelSubj(artSubjs)
+        }
+    }
+
+    const onInput2Change = (e) => {
+        setNewDep(e.target.value)
+        const isScience = science.find((dep) => dep.name === e.target.value.toLowerCase())
+        setJambSubj(scienceSubjs)
+        if(!isScience) {
+            const isArt = arts.find((dep) => dep.name === e.target.value.toLowerCase())
+            setJambSubj(artSubjs)
+        }
+    }
 
     return (
         <div className="transferContainer">
-             {/* <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} /> */}
-            <Breadcrumbs separator={<span style={{fontSize: "40px"}} >/</span>}>
+             <SnackbarComp open={open} setOpen={setOpen} snackBarMsg= {snackBarMsg} snackBarColor={snackBarColor} />
+            <Breadcrumbs separator={<span style={{fontSize: "40px"}} >/</span>} style={{marginLeft: "5rem"}}>
                 <Link style={{textDecoration: "none"}} href="/Home">
-                    <Typography variant="h3" color="blue">Home</Typography>
+                    <Typography variant="h4" color="#4848a3">Home</Typography>
                 </Link>
-                <Typography variant="h3" color="blue">Transfer</Typography>
+                <Typography variant="h4" color="#4848a3">Transfer</Typography>
             </Breadcrumbs>
             {
                 !isTranser? (
-                    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80%"}}>
-                        <Typography fontWeight="600" variant="h4" color="blue" mb="2rem">DO YOU WANT TO TRANSFER</Typography>
+                    <div className="isTransferDiv" style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80%", paddingLeft: "3rem"}}>
+                        <Typography fontWeight="600" variant="h4" color="#4848a3" mb="2rem">DO YOU WANT TO TRANSFER</Typography>
                         <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
                             <Button 
                                 variant="contained"
@@ -124,62 +231,109 @@ const Transfer = () => {
                         </div>
                     </div>
                 ): (
-                    <Grid container height="80%" style={{marginTop: "1rem"}}>
-                    <Grid item xs={12} sm={6}>
-                        <div style={{height: "15%"}}>
-                            <label  style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>OLD DEPARTMENT:</label>
-                            <input value={oldDep} onChange={(e) => setOldDep(e.target.value)} style={{height: "60%", marginLeft: "2rem", fontSize: "19px"}}/>
+                    <div style={{marginTop: "1rem"}}>
+                        <div style={{width: "100%", textAlign: "center"}}>
+                            <h5>AVAILABLE DEPARTMENTS TO BE TRANSFERED TO ARE: COMPUTER SCIENCE, LAW, PHYSICS AND CHEMISTRY.</h5>
                         </div>
-                        <Grid container height="60%" style={{marginTop: "2rem"}}>
-                            <Grid item xs={12} sm={4}>
-                                <label style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>O/LEVEL SUBJECTS:</label>
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                {olevelSubj.map((value, index) => (
-                                    <input
-                                        key={index}
-                                        value={value}
-                                        onChange={(event) => handleInputChange(index, event, olevelSubj, setOlevelSubj)}
-                                        style={{height: "17%", marginTop: "1rem", display: "block", fontSize: "19px"}}
-                                    />
-                                ))}
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={6} style={{ width: "100%", marginTop: "1rem", height: "60%"}}>
-                    <div style={{height: "15%"}}>
-                            <label  style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>NEW DEPARTMENT:</label>
-                            <input value={newDep} onChange={(e) => setNewDep(e.target.value)} style={{height: "60%", marginLeft: "2rem", fontSize: "19px"}}/>
+                        <div className="mainContainer" style={{marginTop: "1rem", display: "flex"}}>
+                        <div style={{ marginTop: "1rem", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", height: "60%"}}>
+                            <div className="inputDiv" style={{height: "15%", width: "100%", display: "flex", justifyContent: "center"}}>
+                                <label className="depLabel" style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>OLD DEPARTMENT:</label>
+                                <Select
+                                    className="dep"
+                                    value={oldDep}
+                                    style={{height: "80%", marginLeft: "2rem", fontSize: "19px", width: "35%"}}
+                                    onChange={onInput1Change}
+                                    >
+                                        {availableDeps1.map((dep, ind) => (
+                                            <MenuItem key={ind} value={dep}>{dep}</MenuItem>
+                                            ))}
+                                </Select>
+                                {/* <input className={isInputErrors.input1 ? "errorInput" : ""} value={oldDep} onChange={onInput1Change} style={{height: "80%", marginLeft: "2rem", fontSize: "19px"}}/> */}
+                                {isInputErrors.input1 && <p className="errorText">{inputError.input1}</p>}
+                            </div>
+                            <div className="subjDiv" style={{height: "60%", paddingTop: "2rem", width: "100%", display: "flex", justifyContent: "center"}}>
+                                    <label style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>O/LEVEL SUBJECTS:</label>
+                                    <Grid className="inputList" item xs={12} sm={8} marginLeft="2rem" style={{display: "flex", flexDirection: "column", width: "35%"}}>
+                                        {olevelFields.map((value, index) => (
+                                            <Select
+                                            className="dep"
+                                            value={value}
+                                            key={index}
+                                            label="Department"
+                                            style={{height: "20%", fontSize: "19px", width: "100%", marginBottom: "1rem"}}
+                                            onChange={(event) => handleInputChange(index, event, olevelFields, setOlevelFields, setOlevelSubj)}                                            >
+                                                {olevelSubj.map((dep, ind) => (
+                                                    <MenuItem key={ind} value={dep}>{dep}</MenuItem>
+                                                    ))}
+                                            </Select>
+                                            ))}
+                                    </Grid>
+                            </div>
                         </div>
-                        <Grid container height="60%" style={{marginTop: "2rem"}}>
-                            <Grid item xs={12} sm={4}>
+                        <div style={{ marginTop: "1rem", width: "50%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                            <div className="inputDiv" style={{height: "15%", width: "100%", display: "flex", justifyContent: "center"}}>
+                                <label className="depLabel" style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>NEW DEPARTMENT:</label>
+                                <Select
+                                    className="dep"
+                                    value={newDep}
+                                    label="Department"
+                                    style={{height: "80%", marginLeft: "0.5rem", fontSize: "19px", width: "35%"}}
+                                    onChange={onInput2Change}
+                                    >
+                                        {availableDeps2.map((dep, ind) => (
+                                            <MenuItem key={ind} value={dep}>{dep}</MenuItem>
+                                            ))}
+                                </Select>
+                                {/* <input className={isInputErrors.input2 ? "errorInput" : ""} value={newDep} onChange={onInput2Change} style={{height: "80%", marginLeft: "2rem", fontSize: "19px"}}/> */}
+                                {isInputErrors.input2 && <p className="errorText">{inputError.input2}</p>}
+                            </div>
+                            <div className="subjDiv" style={{height: "60%", paddingTop: "2rem", width: "100%", display: "flex", justifyContent: "center"}}>
+                                    <label style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>JAMB SUBJECTS:</label>
+                                    <Grid className="inputList" item xs={12} sm={8} marginLeft="2rem" style={{display: "flex", flexDirection: "column", width: "35%"}}>
+                                        {jambFields.map((value, index) => (
+                                            <Select
+                                            className="dep"
+                                            value={value}
+                                            key={index}
+                                            label="Department"
+                                            style={{height: "20%", fontSize: "19px", width: "100%", marginBottom: "1rem"}}
+                                            onChange={(event) => handleInputChange(index, event, jambFields, setJambFields, setJambSubj)}                                            >
+                                                {jambSubj.map((dep, ind) => (
+                                                    <MenuItem key={ind} value={dep}>{dep}</MenuItem>
+                                                    ))}
+                                            </Select>
+                                            ))}
+                                    </Grid>
+                            </div>
+                            {/* <div className="subjDiv" style={{height: "60%", paddingTop: "2rem"}}>
                                 <label  style={{fontSize: "20px", fontWeight: "500", color: "rgb(83, 81, 81)"}}>JAMB SUBJECTS:</label>
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                {jambSubj.map((value, index) => (
-                                    <input
+                                <Grid className="inputList" item xs={12} sm={8} marginLeft="4rem">
+                                    {jambSubj.map((value, index) => (
+                                        <input
                                         key={index}
                                         value={value}
                                         onChange={(event) => handleInputChange(index, event, jambSubj, setJambSubj)}
-                                        style={{height: "17%", marginTop: "1rem", display: "block", fontSize: "19px"}}
-                                    />
-                                ))}
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
-                    <Button 
-                        variant="contained"
-                        sx={{background: "rgb(105, 101, 101)", height: "36%", width: "20%", ":hover": {
-                        background: "rgb(83, 81, 81)"
-                        }}}
-                        size="large"
-                        onClick={submit}
-                        >
-                        Verify
-                    </Button>
+                                        style={{height: "25%", marginTop: "1rem", display: "block", fontSize: "19px"}}
+                                        />
+                                        ))}
+                                </Grid>
+                            </div> */}
+                        </div>
+                    </div>
+                    <div className="buttonDiv" style={{width: "100%", display: "flex", justifyContent: "center", marginBottom: "2rem"}}>
+                        <Button 
+                            variant="contained"
+                            sx={{background: "rgb(105, 101, 101)", height: "36%", width: "20%", ":hover": {
+                            background: "rgb(83, 81, 81)"
+                            }}}
+                            size="large"
+                            onClick={submit}
+                            >
+                            Verify
+                        </Button>
+                    </div>
                 </div>
-                </Grid>
                 )
             }        
         </div>

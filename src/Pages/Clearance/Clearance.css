@@ -1,11 +1,12 @@
 .clearanceContainer {
     height: 100%;
-    margin-top: 1.5rem;
+    margin-top: 6rem;
 }
 
 .leftClearanceSection {
     position: relative;
     height: 100%;
+    width: 60%;
     margin-top: 0.5rem !important;
     padding-left: 4rem !important;
     
@@ -25,7 +26,7 @@
 
 input[type=number] {
     width: 40%;
-    height: 10% !important;
+    height: 30px !important;
     color: #444;
     background: #fff;
     border-radius: 10px;
@@ -34,6 +35,25 @@ input[type=number] {
     text-align: center;
   }
 
+@media (max-width: 490px){
+    .clearanceMain {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .leftClearanceSection {
+        height: 70% !important;
+        padding-left: 0 !important;
+    }
+    .otherClearanceSection {
+        height: 30% !important;
+    }
+    .button {
+        width: 20% !important;
+    }
+}
+
 button {
     border-radius: 20px !important;
+    width: 20% !important;
 }
